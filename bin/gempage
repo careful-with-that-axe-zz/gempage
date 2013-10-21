@@ -1,0 +1,3 @@
+require 'gempage'
+
+Gempage.generate_gempage
