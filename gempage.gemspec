@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors       = ["Jane Sebastian"]
   s.email         = ["jane@betatetra.com"]
   s.description   = %Q{A reference page for gems installed within a Rails application.}
-  s.summary       = %Q{Summary}
+  s.summary       = %Q{Work in progress yo.}
   s.homepage      = "https://github.com/careful-with-that-axe/gempage"
   s.license       = "MIT"
 

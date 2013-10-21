@@ -10,7 +10,7 @@ Gempage.send :extend, Gempage::Import
 module Gempage
   class << self
 
-    def generate_gempage
+    def generate
       format(grouped_result)
     end
 

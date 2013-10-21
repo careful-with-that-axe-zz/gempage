@@ -1,29 +1,39 @@
 # Gempage
 
-TODO: Write a gem description
+Gempage generates a reference web page listing all the gems installed within a Rails application. It is based
+off a version I use within my prototyping application.  Best case scenario it speeds up the process of finding
+source code and documentation of the gems you are using. And though the overall design is simplistic and rather
+garish (I like color), who doesn't like adorable octocat icons everywhere?
+
+This is very much a work in progress and is at a sub minimal viable project level now.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+No way this is becoming an actual gem, especially in current state, so it has be installed as a vendored gem in order to work.
 
-    gem 'gempage'
+1. Checkout the source code: `git clone git@github.com:careful-with-that-axe/gempage.git`
 
-And then execute:
+2. In the gempage directory run `gem build gempage.gemspec` and `gem install ./gempage-0.0.1.gem`
 
-    $ bundle
+3. In a rails application directory run the following command to `vendor` the gem: `gem unpack gempage --target vendor/gems`
 
-Or install it yourself as:
+4. Add `gem 'gempage', :path => "vendor/gems/gempage-0.0.1"` to your Gemfile, then run `bundle`
 
-    $ gem install gempage
+5. In your application directory, start rails console `rails console`
 
-## Usage
+6. Enter `Gempage.generate` which will create an HTML page in your public directory based.
 
-TODO: Write usage instructions here
+7. The page will be viewable at `http://{your_application_url}/gempage`
 
-## Contributing
+## Plans for the Future
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+* Refactor so the whole thing isn't class methods, that isn't my usual style but I was pressed for time and
+following an example.
+* Hover state now has gem info, that should look better and have author, downloads and other details in it.
+* Should be able to run from command line, not just rails console.
+* Version information, require: false, etc should display within the gem.
+* Ack! This thing needs tests, it should have been TDD project if had time.
+* Design more space sensitive, lots of scrolling now.
+* Users should be able to specify a color scheme.
+* Order by group and gem name rather than placement in Gemfile?
+* Create an api of my own to supplement missing content, it doesn't save as much time if so many links are missing
