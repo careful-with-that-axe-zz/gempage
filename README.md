@@ -3,7 +3,9 @@
 Gempage generates a reference web page listing all the gems installed within a Rails application. It is based
 off a version I use within my prototyping application.  Best case scenario it speeds up the process of finding
 source code and documentation of the gems you are using. And though the overall design is simplistic and rather
-garish (I like color), who doesn't like adorable octocat icons everywhere?
+garish (I like color), who doesn't like adorable octocat icons everywhere?  And the dual group gems are my favorite.
+
+A live example: [http://fathomless-tundra-4874.herokuapp.com/gempage](http://fathomless-tundra-4874.herokuapp.com/gempage)
 
 This is very much a work in progress and is at a sub minimal viable project level now.
 
@@ -13,7 +15,7 @@ No way this is becoming an actual gem, especially in current state, so it has be
 
 1. Checkout the source code: `git clone git@github.com:careful-with-that-axe/gempage.git`
 
-2. In the gempage directory run `gem build gempage.gemspec` and `gem install ./gempage-0.0.1.gem`
+2. In the gempage directory run `gem build gempage.gemspec` and `gem install path_to_gempage_directory/gempage-0.0.1.gem`
 
 3. In a rails application directory run the following command to `vendor` the gem: `gem unpack gempage --target vendor/gems`
 
