@@ -1,0 +1,42 @@
+source 'https://rubygems.org'
+
+# Fake Gemfile for testing purposes
+
+gem 'rails', '3.2.14'
+
+gem 'mysql2'
+gem 'thin'
+gem 'resque'
+gem 'httparty'
+gem 'json'
+gem 'sanitize' # Whitelist-based HTML sanitizer.
+
+group :production do
+  gem 'pg'
+end
+
+group :assets do
+  gem 'turbo-sprockets-rails3'
+  gem 'uglifier', '>= 1.0.3', :require => false
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+end
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller', :require => false
+end
+
+group :development, :test do
+  # Development Tools
+  gem 'jazz_hands'
+  gem 'quiet_assets'
+end
+
+group :test do
+  # RSpec
+  gem 'rspec-rails'
+  gem 'rspec-mocks'
+  gem 'email_spec'
+  gem 'webmock'
+end
