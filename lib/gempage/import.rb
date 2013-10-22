@@ -3,19 +3,23 @@ require 'fileutils'
 module Gempage::Import
 
   def import
-    gems = process_gems(normalize(gemfile_contents))
-    gem_array = []
-    gems.each do |group, values|
-      values.each do |t,r|
-        gem_name = t.keys.first
-        gem_config = t.values.first
-        group_name = group.strip if group.is_a? String
-        group_name = group.join(', ') if group.is_a? Array
-        gem_info = create_rubygem(gem_name, group_name, gem_config)
-        gem_array << gem_info if gem_info
+    if gemfile_contents
+      gems = process_gems(normalize(gemfile_contents))
+      gem_array = []
+      gems.each do |group, values|
+        values.each do |t,r|
+          gem_name = t.keys.first
+          gem_config = t.values.first
+          group_name = group.strip if group.is_a? String
+          group_name = group.join(', ') if group.is_a? Array
+          gem_info = create_rubygem(gem_name, group_name, gem_config)
+          gem_array << gem_info if gem_info
+        end
       end
+      gem_array
+    else
+      puts "There is no Gemfile to process... how odd."
     end
-    gem_array
   end
 
   def find_gem(name)
@@ -64,7 +68,7 @@ module Gempage::Import
   end
 
   def gemfile_contents
-    File.readlines(Rails.root.join('Gemfile'))
+    File.readlines(File.join(root, 'Gemfile')) if File.exists? File.join(root, 'Gemfile')
   end
 
   def normalize(gemfile)
@@ -86,12 +90,12 @@ module Gempage::Import
 
   def gem_details(line)
     gem_pieces = line.match(/^gem\s'([\w|-]+)',?\s?(.*)/)
-    { gem_pieces[1] => gem_pieces[2] }
+    gem_pieces ? { gem_pieces[1] => gem_pieces[2] } : nil
   end
 
   def process_gems(data, section = 'all', gems = {})
     data.each_with_index do |line, index|
-      if line.match(/^gem/)
+      if line.match(/^gem\s/)
         add_gem(gems, section, line)
       else
         if line.match(/^group/)
