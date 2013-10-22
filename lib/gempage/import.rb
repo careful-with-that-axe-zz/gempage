@@ -79,35 +79,30 @@ module Gempage::Import
              .map { |x| x.gsub(/\s?#.*$/, '') }
     end
 
-    def set_group_section(line)
+    def get_group(line)
       group = line.match(/^group\s+(.+)\sdo$/)
       group ? group[1] : nil
     end
 
-    def add_gem(gems, section, line)
-      gems << gem_details(line, section) if gem_details(line, section)
+    def add_gem(gems, group, line)
+      gems << gem_details(line, group) if gem_details(line, group)
     end
 
-    def gem_details(line, section)
+    def gem_details(line, group)
       gem_pieces = line.match(/^gem\s'([\w|-]+)',?\s?(.*)/)
-      gem_pieces ? { name: gem_pieces[1], category: format_category(section), configuration: gem_pieces[2] } : nil
+      gem_pieces ? { name: gem_pieces[1], category: group, configuration: gem_pieces[2] } : nil
     end
 
-    def format_category(category)
-      return category.strip if category.is_a? String
-      return category.join(', ') if category.is_a? Array
-    end
-
-    def process_gems(data, section = 'all', gems = [])
+    def process_gems(data, group = 'all', gems = [])
       data.each_with_index do |line, index|
         if line.match(/^gem\s/)
-          add_gem(gems, section, line)
+          add_gem(gems, group, line)
         else
           if line.match(/^group/)
-            section = set_group_section(line)
-            return process_gems(data[(index + 1)..-1], section, gems)
+            group = get_group(line)
+            return process_gems(data[(index + 1)..-1], group, gems)
           else line.match(/^end/)
-            section = 'all'
+            group = 'all'
           end
         end
       end
