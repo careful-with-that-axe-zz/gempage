@@ -50,7 +50,7 @@ module Gempage::Import
       rubygem = find_gem(name)
       if rubygem
         rubygem_hash = {
-          name: rubygem['name'],
+          name: name,
           category: group,
           configuration: gem_config,
           downloads: rubygem['downloads'],
