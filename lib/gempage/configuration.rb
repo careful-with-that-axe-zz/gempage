@@ -29,4 +29,8 @@ module Gempage::Configuration
     File.join(@asset_gempage_path, name)
   end
 
+  def gemfile_path
+    File.join(root, 'Gemfile')
+  end
+
 end

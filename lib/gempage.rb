@@ -14,7 +14,7 @@ module Gempage
     end
 
     def imported
-      Gempage::Import::Importer.new.gem_list
+      Gempage::Import::Importer.new(gemfile_path).gem_list
     end
 
     def grouped_result

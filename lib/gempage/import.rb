@@ -6,13 +6,18 @@ module Gempage::Import
 
     attr_reader :gem_list
 
-    def initialize
+    def initialize(gemfile_path)
+      @gemfile_path = gemfile_path
       @gem_list = gem_list
     end
 
+    def gemfile_lines
+      File.readlines(@gemfile_path) if File.exists? @gemfile_path
+    end
+
     def gem_list
-      if gemfile_contents
-        gems = process_gems(normalize(gemfile_contents))
+      if gemfile_lines
+        gems = process_gems(normalize(gemfile_lines))
         gem_array = []
         gems.each do |group, values|
           values.each do |t,r|
@@ -73,10 +78,6 @@ module Gempage::Import
     def get_source_code_uri(source_code_uri, homepage_uri)
       source_code_uri && source_code_uri != '' ? source_code_uri : nil
       !source_code_uri && homepage_uri && homepage_uri.match(/github\.com/) ? homepage_uri : source_code_uri
-    end
-
-    def gemfile_contents
-      File.readlines(File.join(Dir.getwd, 'Gemfilex')) if File.exists? File.join(Dir.getwd, 'Gemfilex')
     end
 
     def normalize(gemfile)
