@@ -1,0 +1,134 @@
+source 'https://rubygems.org'
+
+gem 'rails', '3.2.14'
+
+gem 'gempage', :path => "vendor/gems/gempage-0.0.1"
+
+# gem unpack gempage --target vendor/gems
+# gem install ../gempage/gempage-0.0.1.gem
+
+# gem 'mysql2'
+# gem 'thin'
+# gem 'resque'
+
+# Presentation Logic
+# gem 'draper'
+# 
+# gem 'devise'
+# gem 'cancan'
+# gem 'omniauth'
+# gem 'omniauth-github'
+# gem 'omniauth-twitter'
+# gem 'omniauth-instagram'
+# gem 'omniauth-meetup'
+# 
+# gem 'haml-rails'
+# gem 'jquery-rails', '2.2.1'
+# gem 'jquery-ui-rails'
+# gem 'bourbon'
+# gem 'carrierwave'
+# gem 'font-awesome-rails'
+
+# gem unpack gempage --target vendor/gems
+# gem install ../gempage/gempage-0.0.1.gem
+
+# forms
+# gem 'simple_form', '2.0.4'
+# gem 'client_side_validations'
+# gem 'client_side_validations-simple_form'
+
+# api
+gem 'httparty'
+gem 'json'
+gem 'sanitize' # Whitelist-based HTML sanitizer.
+
+# gem 'rmagick'
+# 
+# gem 'figaro'
+
+group :production do
+  gem 'pg'
+  # gem 'nested_form'
+  # gem 'kaminari'
+end
+
+group :assets do
+  gem 'turbo-sprockets-rails3'
+  gem 'uglifier', '>= 1.0.3', :require => false
+
+  gem 'sass-rails',   '~> 3.2.3'
+  # gem 'coffee-rails', '~> 3.2.1'
+  # gem 'bootstrap-sass-rails', '~> 2.3.0'
+  # gem 'compass-rails'
+  # gem 'backbone-on-rails'
+  # 
+  # 
+  # gem "therubyracer", :require => 'v8'
+  # gem 'execjs', :require => false
+  # # sass_rails_patch allows 'css.scss.erb' to work.
+  # # delete this when upgrading to rails 4 (sass-rails 4.0.0 incorporates a similar fix)
+  # gem 'sass_rails_patch'
+end
+
+# gem 'haml_coffee_assets', '1.1.2' # Add to gem situation
+# gem 'execjs', :require => false # Add to gem situation
+# gem 'ejs'
+# gem 'haml_coffee_assets', '1.1.2'
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller', :require => false
+  # gem 'sextant' # display routes at /rails/routes
+  # gem 'annotate', '2.5.0'
+  # gem 'html2haml'
+  # gem 'bullet'
+  # gem 'miniprofiler', require: 'rack-mini-profiler' # Display page speed badge
+end
+
+group :development, :test do
+
+  # Development Tools
+  gem 'jazz_hands'
+  gem 'quiet_assets'
+  gem 'simplecov'
+
+  # Test Tools
+  # gem 'fuubar'
+  # gem 'rspec-instafail', :require => false
+  # gem 'database_cleaner', '< 1.0.0' # https://github.com/bmabey/database_cleaner/issues/224
+  # gem 'launchy', :require => false
+  # 
+  # # Code Metrics
+  # gem 'cane'
+  # gem 'morecane'
+  # 
+  # gem 'ansi'
+  # gem 'hpricot', :require => false
+end
+
+group :test do
+  # RSpec
+  gem 'rspec-rails'
+  # gem 'rspec-mocks'
+  # gem 'email_spec'
+  # gem 'webmock'
+
+  # # Javascript Testing
+  # gem 'jasmine'
+  # 
+  # # Capybara
+  # gem 'capybara', :require => false
+  # gem 'capybara-screenshot', :require => false
+  # gem 'capybara-webkit', :require => false
+  # gem 'poltergeist', :require => false # headless browser-driver
+  # 
+  # # Fixture Replacement
+  # gem 'factory_girl_rails'
+  # gem 'ffaker'
+  # gem 'foreman'
+  # gem 'timecop'
+  # 
+  # gem 'shoulda-matchers', :require => false
+  # gem 'rspec-html-matchers', :require => false
+  # gem 'rspec-instafail', :require => false
+end
