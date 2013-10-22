@@ -80,7 +80,8 @@ module Gempage::Import
     end
 
     def set_group_section(line)
-      line.sub(/^group /, '').sub(/ do$/, '').gsub(':', '').split(/,\s*/)
+      group = line.match(/^group\s+(.+)\sdo$/)
+      group ? group[1] : nil
     end
 
     def add_gem(gems, section, line)
