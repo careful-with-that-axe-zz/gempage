@@ -40,14 +40,17 @@ module Gempage::Import
 
     def add_rubygem_content(gem_listing)
       rubygem = find_gem(gem_listing[:name])
+      documentation_uri = get_documentation_uri(rubygem['documentation_uri'], rubygem['homepage_uri'])
+      source_code_uri = get_source_code_uri(rubygem['source_code_uri'], rubygem['homepage_uri'])
+      homepage_uri = get_homepage_uri(rubygem['homepage_uri'])
       if rubygem
         gem_listing[:downloads] = rubygem['downloads']
         gem_listing[:version] = rubygem['version']
         gem_listing[:authors] = rubygem['authors']
         gem_listing[:info] = rubygem['info']
-        gem_listing[:documentation_uri] = get_documentation_uri(rubygem['documentation_uri'], rubygem['homepage_uri'])
-        gem_listing[:source_code_uri] = get_source_code_uri(rubygem['source_code_uri'], rubygem['homepage_uri'])
-        gem_listing[:homepage_uri] = get_homepage_uri(rubygem['homepage_uri'])
+        gem_listing[:documentation_uri] = documentation_uri
+        gem_listing[:source_code_uri] = source_code_uri
+        gem_listing[:homepage_uri] = homepage_uri
         gem_listing
       else
         puts "None such #{name} gem... #{name} will not be in the Gem Reference"
