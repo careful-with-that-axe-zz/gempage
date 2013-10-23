@@ -12,7 +12,7 @@ opt_parser = OptionParser.new do |opt|
   opt.separator  ""
   opt.separator  "Options"
 
-  opt.on("-c","--colors [COLORSCHEME]", [:default, :pastels, :not_a_good_idea], "which garish color scheme to use? options are default|pastels|not_a_good_idea") do |colorscheme|
+  opt.on("-c","--colors [COLORSCHEME]", [:default, :pastels, :random], "which garish color scheme to use? options are default|pastels|random") do |colorscheme|
     options[:colorscheme] = colorscheme
   end
 
