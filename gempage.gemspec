@@ -6,7 +6,7 @@ require 'gempage/version'
 Gem::Specification.new do |s|
   s.name          = "gempage"
   s.version       = Gempage::VERSION
-  s.authors       = ["Jane Sebastian"]
+  s.authors       = ["Jane S. Sebastian"]
   s.email         = ["jane@betatetra.com"]
   s.description   = %Q{A reference page for gems installed within a Rails application.}
   s.summary       = %Q{Work in progress yo.}
