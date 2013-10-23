@@ -9,6 +9,8 @@ namespace :assets do
     assets = Sprockets::Environment.new
     assets.append_path 'assets/stylesheets'
     assets['application.css'].write_to('public/application.css')
+    assets['pastels.scss'].write_to('public/custom/pastels.css')
+    assets['not_a_good_idea.scss'].write_to('public/custom/not_a_good_idea.css')
   end
 end
 
