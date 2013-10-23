@@ -11,9 +11,9 @@ This is very much a work in progress and is at a minimal viable project level no
 
 ## Installation
 
-1. Add `gem 'gempage' to your Gemfile, then run `bundle`
+1. Add `gem 'gempage'` to your Gemfile, then run `bundle`
 
-2. Within terminal in your application root directory type and enter `gempage' to create the Gemfile HTML listing.
+2. Within terminal in your application root directory type and enter `gempage generate` to create the Gemfile HTML listing.
 There is one option which is `--color` or `-c` which can be set to `pastels` or `random`
 
 3. The page will be viewable at `http://{your_application_url}/gempage`
