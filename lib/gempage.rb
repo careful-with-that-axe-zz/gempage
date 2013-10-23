@@ -36,12 +36,12 @@ module Gempage
     end
 
     def create_stylesheet(name, options)
-      custom_css_file = "custom/#{options[:colorscheme].to_s}.css"
+      colorscheme_file = "../public/colorschemes/#{options[:colorscheme].to_s}.css"
 
       File.open(File.join(asset_gempage_path, "application.css"), "w+") do |file|
         file.puts File.readlines(File.join(File.dirname(__FILE__), '../public/application.css'))
-        if options[:colorscheme] && File.exist?(File.join(File.dirname(__FILE__), '../public', custom_css_file))
-          file.puts File.readlines(File.join(File.dirname(__FILE__), '../public', custom_css_file))
+        if options[:colorscheme] && File.exist?(File.join(File.dirname(__FILE__), colorscheme_file))
+          file.puts File.readlines(File.join(File.dirname(__FILE__), colorscheme_file))
         end
       end
     end
