@@ -1,17 +1,14 @@
 require 'spec_helper'
+require 'fixtures/gem_list_fixture'
 
 describe Gempage::Import::Importer do
 
-  let(:data) { File.readlines(File.join(Dir.getwd, '/spec/fixtures/Gemfile')) }
-
   before :each do
     Gempage::Import::Importer.any_instance.stub(:puts) # Silencing display during tests
-    File.stub(:read).with('Gemfilex') { StringIO.new(data) }
-    @importer = Gempage::Import::Importer.new
+    gemfile_path = File.join(Gempage.root, '/spec/fixtures/Gemfile')
+    @importer = Gempage::Import::Importer.new(gemfile_path)
   end
 
-  it 'should process a bunch of gems' do
-    gem_list = @importer.gem_list
-  end
+  xit 'should process a bunch of gems'
 
 end
