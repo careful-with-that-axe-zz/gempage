@@ -23,8 +23,48 @@ module Gempage::Import
       end
     end
 
+    private
+
     def gemfile_lines
       File.readlines(@gemfile_path) if File.exists? @gemfile_path
+    end
+
+    def normalize(gemfile)
+      # Strip white space, keep only lines starting with gem, group
+      # or end, normalize to single quotes, remove trailing comments
+      gemfile.map { |x| x.strip.gsub(/"/,"'") }
+             .reject { |x| x.empty? || !x.match(/^(gem|group|end)/) }
+             .map { |x| x.gsub(/\s?#.*$/, '') }
+    end
+
+    def process_gems(data, group = 'all', gems = [])
+      data.each_with_index do |line, index|
+        if line.match(/^gem\s/)
+          add_gem(gems, group, line)
+        else
+          if line.match(/^group/)
+            group = get_group(line)
+            return process_gems(data[(index + 1)..-1], group, gems)
+          else line.match(/^end/)
+            group = 'all'
+          end
+        end
+      end
+      gems
+    end
+
+    def get_group(line)
+      group = line.match(/^group\s+(.+)\sdo$/)
+      group ? group[1] : nil
+    end
+
+    def add_gem(gems, group, line)
+      gems << gem_details(line, group) if gem_details(line, group)
+    end
+
+    def gem_details(line, group)
+      gem_pieces = line.match(/^gem\s'([\w|-]+)',?\s?(.*)/)
+      gem_pieces ? { name: gem_pieces[1], category: group, configuration: gem_pieces[2] } : nil
     end
 
     def find_gem(name)
@@ -69,44 +109,6 @@ module Gempage::Import
     def get_source_code_uri(source_code_uri, homepage_uri)
       source_code_uri && source_code_uri != '' ? source_code_uri : nil
       !source_code_uri && homepage_uri && homepage_uri.match(/github\.com/) ? homepage_uri : source_code_uri
-    end
-
-    def normalize(gemfile)
-      # Strip white space, keep only lines starting with gem, group
-      # or end, normalize to single quotes, remove trailing comments
-      gemfile.map { |x| x.strip.gsub(/"/,"'") }
-             .reject { |x| x.empty? || !x.match(/^(gem|group|end)/) }
-             .map { |x| x.gsub(/\s?#.*$/, '') }
-    end
-
-    def get_group(line)
-      group = line.match(/^group\s+(.+)\sdo$/)
-      group ? group[1] : nil
-    end
-
-    def add_gem(gems, group, line)
-      gems << gem_details(line, group) if gem_details(line, group)
-    end
-
-    def gem_details(line, group)
-      gem_pieces = line.match(/^gem\s'([\w|-]+)',?\s?(.*)/)
-      gem_pieces ? { name: gem_pieces[1], category: group, configuration: gem_pieces[2] } : nil
-    end
-
-    def process_gems(data, group = 'all', gems = [])
-      data.each_with_index do |line, index|
-        if line.match(/^gem\s/)
-          add_gem(gems, group, line)
-        else
-          if line.match(/^group/)
-            group = get_group(line)
-            return process_gems(data[(index + 1)..-1], group, gems)
-          else line.match(/^end/)
-            group = 'all'
-          end
-        end
-      end
-      gems
     end
   end
 end
