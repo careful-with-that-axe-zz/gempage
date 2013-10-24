@@ -35,19 +35,23 @@ module Gempage
       end
     end
 
-    def create_stylesheet(name, options)
-      colorscheme_file = "../public/colorschemes/#{options[:colorscheme].to_s}.css"
+    def template(name)
+      ERB.new(File.read(File.join(File.dirname(__FILE__), '../views/', "#{name}.erb")))
+    end
 
+    def create_stylesheet(name, options)
       File.open(File.join(asset_gempage_path, "application.css"), "w+") do |file|
-        file.puts File.readlines(File.join(File.dirname(__FILE__), '../public/application.css'))
-        if options[:colorscheme] && File.exist?(File.join(File.dirname(__FILE__), colorscheme_file))
-          file.puts File.readlines(File.join(File.dirname(__FILE__), colorscheme_file))
-        end
+        file.puts File.readlines(File.join(File.dirname(__FILE__), "../public/application.css"))
+        file.puts File.readlines(File.join(File.dirname(__FILE__), "../public/color-schemes/#{color_scheme_file(options)}.css"))
       end
     end
 
-    def template(name)
-      ERB.new(File.read(File.join(File.dirname(__FILE__), '../views/', "#{name}.erb")))
+    def color_scheme_file(options)
+      options && options[:colorscheme] && css_file_exists?(options[:colorscheme].to_s) ? options[:colorscheme].to_s : 'default'
+    end
+
+    def css_file_exists?(file_name)
+      File.exist?(File.join(File.dirname(__FILE__), "../public/color-schemes/#{file_name}.css"))
     end
 
     def output_message(grouped_result, result)
