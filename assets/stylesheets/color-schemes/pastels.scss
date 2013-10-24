@@ -1,0 +1,14 @@
+@import '../global/mixins';
+@import '../global/colors';
+
+// Pastel color scheme
+
+.gem-color-0 { @include gem-color($mint) }
+.gem-color-1 { @include gem-color($buttercream) }
+.gem-color-2 { @include gem-color($aquamarine) }
+.gem-color-3 { @include gem-color($pink) }
+.gem-color-4 { @include gem-color($forest-green-archis) }
+.gem-color-5 { @include gem-color($taupe) }
+.gem-color-6 { @include gem-color($rose) }
+.gem-color-7 { @include gem-color($slate) }
+.gem-color-8 { @include gem-color($green) }
