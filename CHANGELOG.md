@@ -8,4 +8,4 @@ v0.0.2, 2013-10-24
     argument restriction of of executable, if user enters nonexistent color scheme it will just
     get set as default. Adding color setting to public/application.css during the generating
     phase to avoid having to set overrides.  Refactored default versus custom color scheme code
-    in generate.rb.
+    in generate.rb.  Resolving serious irony of not having own `source_code_uri` set.
