@@ -40,6 +40,7 @@ module Gempage::Import
     end
 
     # The heart of the system that parses through the Gemfile
+    # The only lines left are ones that start with gem group or end
 
     def process_gems(data, group = 'all', gems = [])
       data.each_with_index do |line, index|
@@ -47,20 +48,18 @@ module Gempage::Import
           gem_detail = gem_details(line, group)
           gems << gem_detail if gem_detail
         else
-          if line.match(/^group/)
-            group = get_group(line)
-            return process_gems(data[(index + 1)..-1], group, gems)
-          else line.match(/^end/)
-            group = 'all'
-          end
+          group = get_group(line)
+          return process_gems(data[(index + 1)..-1], group, gems) unless group == 'all'
         end
       end
       gems
     end
 
+    # The only lines left are ones that start with gem group or end
+    # The only time you get to this method is if it is group or end
     def get_group(line)
       group = line.match(/^group\s+(.+)\sdo$/)
-      group ? group[1] : nil
+      group ? group[1] : 'all'
     end
 
     def gem_details(line, group)
