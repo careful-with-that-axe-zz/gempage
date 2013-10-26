@@ -44,7 +44,8 @@ module Gempage::Import
     def process_gems(data, group = 'all', gems = [])
       data.each_with_index do |line, index|
         if line.match(/^gem\s/)
-          gems << gem_details(line, group) if gem_details(line, group)
+          gem_detail = gem_details(line, group)
+          gems << gem_detail if gem_detail
         else
           if line.match(/^group/)
             group = get_group(line)
