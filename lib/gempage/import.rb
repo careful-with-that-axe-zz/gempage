@@ -24,6 +24,8 @@ module Gempage::Import
     end
 
     private
+    
+    # process_gems -> add_gems ->
 
     def gemfile_lines
       File.readlines(@gemfile_path) if File.exists? @gemfile_path
@@ -37,10 +39,12 @@ module Gempage::Import
              .map { |x| x.gsub(/\s?#.*$/, '') }
     end
 
+    # The heart of the system that parses through the Gemfile
+
     def process_gems(data, group = 'all', gems = [])
       data.each_with_index do |line, index|
         if line.match(/^gem\s/)
-          add_gem(gems, group, line)
+          gems << gem_details(line, group) if gem_details(line, group)
         else
           if line.match(/^group/)
             group = get_group(line)
@@ -58,14 +62,12 @@ module Gempage::Import
       group ? group[1] : nil
     end
 
-    def add_gem(gems, group, line)
-      gems << gem_details(line, group) if gem_details(line, group)
-    end
-
     def gem_details(line, group)
       gem_pieces = line.match(/^gem\s'([\w|-]+)',?\s?(.*)/)
       gem_pieces ? { name: gem_pieces[1], category: group, configuration: gem_pieces[2] } : nil
     end
+
+    # The snagging gem details from RubyGems.org part of the system
 
     def find_gem(name)
       rubygems_content = response_body(rubygem_url(name))
@@ -85,6 +87,8 @@ module Gempage::Import
     def rubygem_url(name)
       "https://rubygems.org/api/v1/gems/#{name}.json"
     end
+
+    # The final creation of the gem listing array of hashed ruby gem content
 
     def add_rubygem_content(gem_listing)
       rubygem = find_gem(gem_listing[:name])
