@@ -24,8 +24,6 @@ module Gempage::Import
     end
 
     private
-    
-    # process_gems -> add_gems ->
 
     def gemfile_lines
       File.readlines(@gemfile_path) if File.exists? @gemfile_path
@@ -78,10 +76,16 @@ module Gempage::Import
       begin
         request = Net::HTTP.new URI(url).host
         response = request.request_get URI(url).path
-        response.code.to_i == 200 ? response.body : false
+        response.code.to_i == 200 ? response.body : rubygem_error(response.code.to_s)
       rescue StandardError
-        '{ "error":"There was an issue getting stuff back from RubyGems" }'
+        rubygem_error
       end
+    end
+
+    def rubygem_error(error_code = nil)
+      error_message = "There was an issue getting stuff back from RubyGems."
+      error_message += " Error code: #{error_code}" if error_code
+      '{ "error":"' + error_message + '" }'
     end
 
     def rubygem_url(name)
