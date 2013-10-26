@@ -32,7 +32,10 @@
                                 <%= rubygem[:name] %>
                               <% end %>
                             </h4>
-                          <% end
+                            <% if rubygem[:error] %>
+                              <h3><%= rubygem[:error] %></h3>
+                            <% end
+                          end
                           if rubygem[:documentation_uri] %>
                             <div class="documentation">
                               <a class="icon-book icon-3x" href="<%= rubygem[:documentation_uri] %>" target="_blank"></a>
@@ -41,6 +44,11 @@
                           if rubygem[:source_code_uri] %>
                             <div class="github">
                               <a class="icon-github icon-3x" href="<%= rubygem[:source_code_uri] %>" target="_blank"></a>
+                            </div>
+                          <% end
+                          if rubygem[:error] %>
+                            <div class="error">
+                              <a class="icon-globe icon-3x" href="" target="_blank"></a>
                             </div>
                           <% end %>
                       </div>

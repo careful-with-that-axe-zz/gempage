@@ -68,9 +68,8 @@ module Gempage::Import
     end
 
     def find_gem(name)
-      url = "https://rubygems.org/api/v1/gems/#{name}.json"
-      JSON.parse(response_body(url)) if response_body(url)
-      # set variable
+      rubygems_content = response_body(rubygem_url(name))
+      JSON.parse(rubygems_content) if rubygems_content
     end
 
     def response_body(url)
@@ -79,8 +78,12 @@ module Gempage::Import
         response = request.request_get URI(url).path
         response.code.to_i == 200 ? response.body : false
       rescue StandardError
-        false
+        '{ "error":"There was an issue getting stuff back from RubyGems" }'
       end
+    end
+
+    def rubygem_url(name)
+      "https://rubygems.org/api/v1/gems/#{name}.json"
     end
 
     def add_rubygem_content(gem_listing)
@@ -96,6 +99,7 @@ module Gempage::Import
         gem_listing[:documentation_uri] = documentation_uri
         gem_listing[:source_code_uri] = source_code_uri
         gem_listing[:homepage_uri] = homepage_uri
+        gem_listing[:error] = rubygem['error']
         gem_listing
       else
         puts "None such #{name} gem... #{name} will not be in the Gem Reference"
