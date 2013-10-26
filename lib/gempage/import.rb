@@ -70,12 +70,17 @@ module Gempage::Import
     def find_gem(name)
       url = "https://rubygems.org/api/v1/gems/#{name}.json"
       JSON.parse(response_body(url)) if response_body(url)
+      # set variable
     end
 
     def response_body(url)
-      request = Net::HTTP.new URI(url).host
-      response = request.request_get URI(url).path
-      response.code.to_i == 200 ? response.body : false
+      begin
+        request = Net::HTTP.new URI(url).host
+        response = request.request_get URI(url).path
+        response.code.to_i == 200 ? response.body : false
+      rescue StandardError
+        false
+      end
     end
 
     def add_rubygem_content(gem_listing)
