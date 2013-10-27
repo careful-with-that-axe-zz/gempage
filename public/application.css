@@ -54,6 +54,11 @@ a {
     line-height: 1.2;
     padding: 10px 0 5px 10px;
     margin: 0; }
+  .gem h3 {
+    font: bold 14px Verdana;
+    line-height: 1.2;
+    padding: 0 0 5px 10px;
+    margin: 0; }
 
 .icon {
   font-size: 30px;
@@ -64,11 +69,15 @@ a {
   bottom: -28px;
   left: -18px; }
 
-.github {
+.github, .error {
   bottom: -22px;
   right: -23px; }
 
+.gem-color-error {
+  border: 3px solid #e54028 !important;
+  color: #e54028 !important; }
+  .gem-color-error a {
+    color: #e54028 !important; }
+
 .error {
-  bottom: -14px;
-  right: -20px;
   color: #e54028; }

@@ -7,3 +7,11 @@
     color: $color;
   }
 }
+
+@mixin gem-color-override($color) {
+  border: 3px solid $color !important;
+  color: $color !important;
+  a {
+    color: $color !important;
+  }
+}

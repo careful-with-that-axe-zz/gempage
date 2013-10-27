@@ -1,3 +1,4 @@
+@import 'global/mixins';
 @import 'global/colors';
 
 body {
@@ -61,6 +62,12 @@ a {
     padding: 10px 0 5px 10px;
     margin: 0;
   }
+  h3 {
+    font: bold 14px Verdana;
+    line-height: 1.2;
+    padding: 0 0 5px 10px;
+    margin: 0;
+  }
 }
 .icon {
   font-size: 30px;
@@ -71,12 +78,13 @@ a {
   bottom: -28px;
   left: -18px;
 }
-.github {
+.github, .error {
   bottom: -22px;
   right: -23px;
 }
+.gem-color-error {
+  @include gem-color-override($error_color)
+}
 .error {
-  bottom: -14px;
-  right: -20px;
   color: $error_color;
 }
