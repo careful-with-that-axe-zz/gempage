@@ -2,31 +2,39 @@ require "gempage/version"
 
 require 'erb'
 require 'fileutils'
+require 'gempage/gemfile_processor'
+require 'gempage/ruby_gem_info'
 require 'gempage/configuration'
-require 'gempage/import'
 Gempage.send :extend, Gempage::Configuration
 
 module Gempage
   class << self
 
     def generate(options = nil)
-      format(grouped_result, options)
+      result ? format(result, options) : puts(output_message(result))
     end
 
     def result
       return @result if defined? @result
-      Gempage::Import::Importer.new(gemfile_path).gem_list
+      @result = gem_listing ? merge_gem_and_info(gem_listing) : false
     end
 
-    def grouped_result
-      return @grouped_result if defined? @grouped_result
-      result.group_by{ |result| result[:category] }
+    def gem_listing
+      return @gem_listing if defined? @gem_listing
+      @gem_listing = Gempage::GemfileProcessor.new(gemfile_path).gem_list
     end
 
-    def format(grouped_result, options)
+    def merge_gem_and_info(gem_listing)
+      gem_listing.each_with_index do |listed_gem, index|
+        ruby_gem_json = Gempage::RubyGemInfo.new(listed_gem['name']).gem_json
+        gem_listing[index].merge!(ruby_gem_json)
+      end
+    end
+
+    def format(result, options)
       create_stylesheet('application', options)
-      create_index(grouped_result)
-      puts output_message(grouped_result, result)
+      create_index(result)
+      puts output_message(result)
     end
 
     def create_index(result)
@@ -54,8 +62,13 @@ module Gempage
       File.exist?(File.join(File.dirname(__FILE__), "../public/color-schemes/#{file_name}.css"))
     end
 
-    def output_message(grouped_result, result)
-      "Gem list generated for #{grouped_result.length} gem groups and #{result.length} gems to #{gempage_path}."
+    def output_message(result)
+      if result
+        category_count = result.group_by{ |result| result['category'] }.length
+        "Gem list generated for #{category_count} gem groups and #{result.length} gems to #{gempage_path}."
+      else
+        "There is no Gemfile to process, how odd..."
+      end
     end
 
   end
