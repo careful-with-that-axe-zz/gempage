@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Gem Reference</title>
     <link href="./gempage/assets/<%= Gempage::VERSION  %>/application.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
   </head>
   <body>
     <div class="content">
@@ -37,18 +37,18 @@
                             <% end
                           end
                           if rubygem[:documentation_uri] %>
-                            <div class="documentation">
-                              <a class="icon-book icon-3x" href="<%= rubygem[:documentation_uri] %>" target="_blank"></a>
+                            <div class="icon documentation">
+                              <a href="<%= rubygem[:documentation_uri] %>" target="_blank"><i class="fa fa-book fa-3x"></i></a>
                             </div>
                           <% end
                           if rubygem[:source_code_uri] %>
-                            <div class="github">
-                              <a class="icon-github icon-3x" href="<%= rubygem[:source_code_uri] %>" target="_blank"></a>
+                            <div class="icon github">
+                              <a href="<%= rubygem[:source_code_uri] %>" target="_blank"><i class="fa fa-github fa-3x"></i></a>
                             </div>
                           <% end
                           if rubygem[:error] %>
-                            <div class="error">
-                              <a class="icon-globe icon-3x" href="" target="_blank"></a>
+                            <div class="icon error">
+                              <i class="fa fa-exclamation-circle fa-3x"></i>
                             </div>
                           <% end %>
                       </div>

@@ -49,25 +49,26 @@ a {
   color: #616161; }
   .gem a {
     color: #616161; }
+  .gem h4 {
+    font: bold 15px Verdana;
+    line-height: 1.2;
+    padding: 10px 0 5px 10px;
+    margin: 0; }
 
-.documentation {
+.icon {
   font-size: 30px;
   position: absolute;
-  font-weight: bold;
+  font-weight: bold; }
+
+.documentation {
   bottom: -28px;
   left: -18px; }
 
-.gem h4 {
-  font: bold 15px Verdana;
-  line-height: 1.2;
-  padding: 10px 0 5px 10px;
-  margin: 0; }
-  .gem h4 a {
-    color: gray; }
-
 .github {
-  font-size: 30px;
-  font-weight: bold;
-  position: absolute;
   bottom: -22px;
   right: -23px; }
+
+.error {
+  bottom: -14px;
+  right: -20px;
+  color: #e54028; }

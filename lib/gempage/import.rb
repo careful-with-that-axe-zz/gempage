@@ -83,8 +83,7 @@ module Gempage::Import
     end
 
     def rubygem_error(error_code = nil)
-      error_message = "There was an issue getting stuff back from RubyGems."
-      error_message += " Error code: #{error_code}" if error_code
+      error_message = error_code ? error_code : "Issue with RubyGems"
       '{ "error":"' + error_message + '" }'
     end
 

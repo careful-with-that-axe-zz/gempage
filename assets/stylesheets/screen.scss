@@ -1,3 +1,5 @@
+@import 'global/colors';
+
 body {
   font: normal 15px/1.5 Verdana, Geneva, sans-serif;
 }
@@ -53,28 +55,28 @@ a {
   a {
     color: #616161;
   }
+  h4 {
+    font: bold 15px Verdana;
+    line-height: 1.2;
+    padding: 10px 0 5px 10px;
+    margin: 0;
+  }
 }
-
-.documentation {
+.icon {
   font-size: 30px;
   position: absolute;
   font-weight: bold;
+}
+.documentation {
   bottom: -28px;
   left: -18px;
 }
-.gem h4 {
-  font: bold 15px Verdana;
-  line-height: 1.2;
-  padding: 10px 0 5px 10px;
-  margin: 0;
-  a {
-    color: gray;
-  }
-}
 .github {
-  font-size: 30px;
-  font-weight: bold;
-  position: absolute;
   bottom: -22px;
   right: -23px;
+}
+.error {
+  bottom: -14px;
+  right: -20px;
+  color: $error_color;
 }
