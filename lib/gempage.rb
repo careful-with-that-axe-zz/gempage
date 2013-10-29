@@ -32,8 +32,8 @@ module Gempage
     end
 
     def format(options)
-      create_stylesheet(options)
       create_index
+      create_stylesheet(options)
       puts output_message
     end
 
