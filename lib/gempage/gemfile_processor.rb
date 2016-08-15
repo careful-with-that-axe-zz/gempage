@@ -1,4 +1,5 @@
 require 'fileutils'
+require "gemnasium/parser"
 
 module Gempage
   class GemfileProcessor
@@ -10,49 +11,28 @@ module Gempage
     end
 
     def gem_list
-      process_gems(normalize_lines) if gemfile_lines
+      process_gems(Gemnasium::Parser.gemfile(gemfile_lines)) if gemfile_lines
     end
 
     private
 
     def gemfile_lines
       return @gemfile_lines if defined? @gemfile_lines
-      @gemfile_lines = File.exists?(@gemfile_path) ? File.readlines(@gemfile_path) : false
+      @gemfile_lines = File.exists?(@gemfile_path) ? File.read(@gemfile_path) : false
     end
 
-    def normalize_lines
-      # Strip white space, keep only lines starting with gem, group
-      # or end, normalize to single quotes, remove trailing comments
-      gemfile_lines.map { |x| x.strip.gsub(/"/,"'") }
-                   .reject { |x| x.empty? || !x.match(/^(gem|group|end)/) }
-                   .map { |x| x.gsub(/\s?#.*$/, '') }
-    end
-
-    # The heart of the system that parses through the Gemfile
-
-    def process_gems(data, group = 'all', gems = [])
-      data.each_with_index do |line, index|
-        if line.match(/^gem\s/)
-          gem_detail = gem_details(line, group)
-          gems << gem_detail if gem_detail
-        else
-          group = get_group(line)
-          return process_gems(data[(index + 1)..-1], group, gems) unless group == 'all'
+    def process_gems(data)
+      gems = []
+      data.dependencies.each do |dependency|
+        requirements = dependency.requirement.as_list
+        first_req = requirements.nil? || requirements.first == ">= 0" ? nil : requirements.first
+        if first_req
+          first_req = first_req.gsub(/^\=\s/, '')
+          first_req = "'#{first_req}'"
         end
+        gems << { name: dependency.name, category: dependency.groups.sort, configuration: first_req }
       end
       gems
     end
-
-    def get_group(line)
-      group = line.match(/^group\s+(.+)\sdo$/)
-      group ? group[1] : 'all'
-    end
-
-    def gem_details(line, group)
-      gem_pieces = line.match(/^gem\s'([\w|-]+)',?\s?(.*)/)
-      configuration = gem_pieces[2] && gem_pieces[2].strip.length != 0 ? gem_pieces[2] : nil
-      gem_pieces ? { 'name' => gem_pieces[1], 'category' => group, 'configuration' => configuration } : nil
-    end
-
   end
 end

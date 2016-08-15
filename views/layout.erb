@@ -9,17 +9,16 @@
   <body>
     <div class="content">
       <%  class_lookup = []
-          grouped_result = result.group_by{ |result| result['category'] }
-          grouped_result.each do |group, ruby_gems|
-            group_array = group.split(',').map(&:strip) %>
+          grouped_result = result.group_by{ |result| result[:category] }
+          grouped_result.each do |group, ruby_gems| %>
             <div class="gem-section">
               <div class="gem-group-heading">
-                <h4><%= group.upcase %></h4>
+                <h4><%= group.join(' , ') %></h4>
               </div>
               <div class="gem-group">
                 <% ruby_gems.each do |rubygem| %>
                   <div class="main-gem">
-                    <% group_array.each_with_index do |group_name, index|
+                    <% group.each_with_index do |group_name, index|
                         gem_style = "z-index:#{index};"
                         gem_style += " top:#{(index * 5)}px; left:#{(index * 5)}px;"
                         class_lookup << group_name unless class_lookup.include? group_name
@@ -29,9 +28,9 @@
                           <% if index == 0 %>
                             <h4>
                               <% if rubygem['homepage_uri'] %>
-                                <a href="<%= rubygem['homepage_uri'] %>" target="_blank"><%= rubygem['name'] %></a>
+                                <a href="<%= rubygem['homepage_uri'] %>" target="_blank"><%= rubygem[:name] %></a>
                               <% else %>
-                                <%= rubygem['name'] %>
+                                <%= rubygem[:name] %>
                               <% end %>
                             </h4>
                             <% if rubygem['error'] %>

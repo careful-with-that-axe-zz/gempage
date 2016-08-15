@@ -26,7 +26,7 @@ module Gempage
 
     def merge_gem_and_info
       gem_listing.each_with_index do |listed_gem, index|
-        ruby_gem_json = Gempage::RubyGemInfo.new(listed_gem['name']).gem_json
+        ruby_gem_json = Gempage::RubyGemInfo.new(listed_gem[:name]).gem_json
         gem_listing[index].merge!(ruby_gem_json)
       end
     end
@@ -64,7 +64,7 @@ module Gempage
 
     def output_message
       if result
-        category_count = result.group_by{ |result| result['category'] }.length
+        category_count = result.group_by{ |result| result[:category] }.length
         "Gem list generated for #{category_count} gem groups and #{result.length} gems to #{gempage_path}."
       else
         "There is no Gemfile to process, how odd..."
