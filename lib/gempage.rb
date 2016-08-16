@@ -1,10 +1,12 @@
-require "gempage/version"
-
 require 'erb'
 require 'fileutils'
-require 'gempage/gemfile_processor'
-require 'gempage/ruby_gem_info'
+require "gemnasium/parser"
+
+require "gempage/version"
+require 'gempage/gem'
+require 'gempage/ruby_gem'
 require 'gempage/configuration'
+
 Gempage.send :extend, Gempage::Configuration
 
 module Gempage
@@ -15,20 +17,28 @@ module Gempage
     end
 
     def result
-      return @result if defined? @result
-      @result = gem_listing ? merge_gem_and_info : false
+      gem_listing.group_by(&:groups)
     end
+
+    def process_gems(data)
+      gems = []
+      data.dependencies.each do |dependency|
+        requirements = dependency.requirement.as_list
+        first_req = requirements.nil? || requirements.first == ">= 0" ? nil : requirements.first
+        if first_req
+          first_req = first_req.gsub(/^\=\s/, '')
+          first_req = "'#{first_req}'"
+        end
+        gems << Gempage::Gem.new(dependency.name, groups: dependency.groups.sort, requirements: first_req)
+      end
+
+      gems
+    end
+
 
     def gem_listing
-      return @gem_listing if defined? @gem_listing
-      @gem_listing = Gempage::GemfileProcessor.new(gemfile_path).gem_list
-    end
-
-    def merge_gem_and_info
-      gem_listing.each_with_index do |listed_gem, index|
-        ruby_gem_json = Gempage::RubyGemInfo.new(listed_gem[:name]).gem_json
-        gem_listing[index].merge!(ruby_gem_json)
-      end
+      gemfile = File.exists?(gemfile_path) ? File.read(gemfile_path) : false
+      process_gems(Gemnasium::Parser.gemfile(gemfile)) if gemfile
     end
 
     def format(options)
@@ -64,8 +74,7 @@ module Gempage
 
     def output_message
       if result
-        category_count = result.group_by{ |result| result[:category] }.length
-        "Gem list generated for #{category_count} gem groups and #{result.length} gems to #{gempage_path}."
+        "Gem list generated for #{result.length} gem groups and #{gem_listing.length} gems to #{gempage_path}."
       else
         "There is no Gemfile to process, how odd..."
       end
